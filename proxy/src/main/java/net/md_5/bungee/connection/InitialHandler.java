@@ -41,7 +41,6 @@ import net.md_5.bungee.netty.PacketHandler;
 import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.netty.decoders.CipherDecoder;
 import net.md_5.bungee.netty.decoders.DualProtocolPacketDecoder;
-import net.md_5.bungee.netty.decoders.PacketDecoder;
 import net.md_5.bungee.netty.encoders.CipherEncoder;
 import net.md_5.bungee.protocol.Forge;
 import net.md_5.bungee.protocol.MinecraftInput;
@@ -301,8 +300,14 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             return;
         }
 
-        unsafe().sendPacket( request172 = EncryptionUtil.encryptRequest172(this.onlineMode) ); // packet mapping should take care of this
-        thisState = State.ENCRYPT;
+        if ( this.onlineMode )
+        {
+            unsafe().sendPacket( request172 = EncryptionUtil.encryptRequest172( this.onlineMode ) ); // packet mapping should take care of this
+            thisState = State.ENCRYPT;
+        } else
+        {
+            finish( true );
+        }
     }
 
     @Override
@@ -398,6 +403,9 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             };
 
             HttpClient.get( authURL, ch.getHandle().eventLoop(), handler );
+        } else
+         {
+            finish( false );
         }
     }
 
@@ -485,20 +493,28 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                     {
                         if ( ch.getHandle().isActive() )
                         {
-                            if ( !ver17 ) {
+                            if ( !ver17 )
+                            {
                                 unsafe().sendPacket( new PacketFCEncryptionResponse( new byte[ 0 ], new byte[ 0 ] ) );
                             }
                             try
                             {
-                                Cipher encrypt = EncryptionUtil.getCipher( Cipher.ENCRYPT_MODE, sharedKey );
-                                ch.addBefore( PipelineUtils.DECRYPT_HANDLER, PipelineUtils.ENCRYPT_HANDLER, new CipherEncoder( encrypt ) );
-                                if ( ver17 ) {
+                                if ( !ver17 || InitialHandler.this.isOnlineMode() )
+                                {
+                                    Cipher encrypt = EncryptionUtil.getCipher( Cipher.ENCRYPT_MODE, sharedKey );
+                                    ch.addBefore( PipelineUtils.DECRYPT_HANDLER, PipelineUtils.ENCRYPT_HANDLER, new CipherEncoder( encrypt ) );
+                                }
+                                if ( ver17 )
+                                {
                                     unsafe.sendPacket( new PacketLoginSuccess( getName() ) );
-                                    try {
-                                        handle( new PacketCDClientStatus( (byte)0 ) );
-                                    } catch ( CancelSendSignal e ) {
+                                    try
+                                    {
+                                        handle( new PacketCDClientStatus( (byte) 0 ) );
+                                    } catch ( CancelSendSignal e )
+                                    {
 
-                                    } catch ( Exception e ) {
+                                    } catch ( Exception e )
+                                    {
                                         e.printStackTrace();
                                     }
                                 }

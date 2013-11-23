@@ -40,7 +40,7 @@ import net.md_5.bungee.netty.HandlerBoss;
 import net.md_5.bungee.netty.PacketHandler;
 import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.netty.decoders.CipherDecoder;
-import net.md_5.bungee.netty.decoders.DualProtocolPacketDecoder;
+import net.md_5.bungee.netty.decoders.PacketDecoder;
 import net.md_5.bungee.netty.encoders.CipherEncoder;
 import net.md_5.bungee.protocol.Forge;
 import net.md_5.bungee.protocol.MinecraftInput;
@@ -255,7 +255,11 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         Preconditions.checkState( forgeLogin == null, "Already received FORGE LOGIN" );
         forgeLogin = login;
 
-        ch.getHandle().pipeline().get( DualProtocolPacketDecoder.class ).setProtocol( Forge.getInstance() );
+        if ( ch.getHandle().pipeline().get( PacketDecoder.class ) != null ) {
+            ch.getHandle().pipeline().get( PacketDecoder.class ).setProtocol( Forge.getInstance() );
+        } else {
+            disconnect( "Forge 1.7.2?!" );
+        }
     }
 
     @Override
@@ -362,7 +366,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         sharedKey = EncryptionUtil.getSecret( encryptResponse, request164 );
         Cipher decrypt = EncryptionUtil.getCipher( Cipher.DECRYPT_MODE, sharedKey );
-        ch.addBefore( PipelineUtils.DUAL_PROTOCOL_PACKET_DECODER, PipelineUtils.DECRYPT_HANDLER, new CipherDecoder( decrypt ) );
+        ch.addBefore( PipelineUtils.PACKET_DECODE_HANDLER, PipelineUtils.DECRYPT_HANDLER, new CipherDecoder( decrypt ) );
 
         if ( this.onlineMode )
         {
@@ -415,7 +419,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         sharedKey = EncryptionUtil.getSecret( encryptionResponse, request172 );
         Cipher decrypt = EncryptionUtil.getCipher( Cipher.DECRYPT_MODE, sharedKey );
-        ch.addBefore( PipelineUtils.DUAL_PROTOCOL_PACKET_DECODER, PipelineUtils.DECRYPT_HANDLER, new CipherDecoder( decrypt ) );
+        ch.addBefore( PipelineUtils.PACKET_DECODE_HANDLER, PipelineUtils.DECRYPT_HANDLER, new CipherDecoder( decrypt ) );
 
         if ( this.onlineMode )
         {

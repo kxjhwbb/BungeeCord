@@ -41,20 +41,23 @@ public class PacketTranslatorDecoder extends ByteToMessageDecoder {
             short mappedPacketId = PacketMapping.cpm[ packetId ]; // Convert to 1.6.4 packet id
             PacketRewriter rewriter = PacketMapping.rewriters[ mappedPacketId ];
             ByteBuf content = Unpooled.buffer();
-            content.writeByte( mappedPacketId );
-            if ( rewriter == null ) {
-                content.writeBytes( in.readBytes( in.readableBytes() ) );
-            } else {
-                rewriter.rewriteClientToServer( in, content );
+            try {
+                content.writeByte( mappedPacketId );
+                if ( rewriter == null ) {
+                    content.writeBytes( in.readBytes( in.readableBytes() ) );
+                } else {
+                    rewriter.rewriteClientToServer( in, content );
+                }
+                ByteBuf copy = content.copy();
+                DefinedPacket packet = protocol.read( content.readUnsignedByte(), content );
+                if ( in.readableBytes() != 0 )
+                {
+                    throw new BadPacketException( "Did not read all bytes from packet " + packet.getClass() + " " + packetId + " Protocol " + protocol );
+                }
+                out.add( new PacketWrapper( packet, copy ) );
+            } finally {
+                content.release();
             }
-            ByteBuf copy = content.copy();
-            DefinedPacket packet = protocol.read( content.readUnsignedByte(), content );
-            if ( in.readableBytes() != 0 )
-            {
-                throw new BadPacketException( "Did not read all bytes from packet " + packet.getClass() + " " + packetId + " Protocol " + protocol );
-            }
-            out.add( new PacketWrapper( packet, copy ) );
-            content.release();
         } else {
             ByteBuf copy = in.copy();
             DefinedPacket packet = PacketMapping.readInitialPacket( packetId, nextState, in );

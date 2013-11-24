@@ -235,7 +235,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         } else
         {
             pingBack.done( new NewServerPing(
-                    new NewServerPing.Protocol( "1.7.2", 4 ), //TODO: There must be a better solution to this
+                    new NewServerPing.Protocol( bungee.getGameVersion(), pingVersion ), //TODO: There must be a better solution to this
                     new NewServerPing.Players( listener.getMaxPlayers(), bungee.getOnlineCount() ), motd, bungee.getFavicon() ), null );
         }
         BungeeCord.getInstance().getConnectionThrottle().unthrottle( getAddress().getAddress() );
@@ -267,6 +267,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public void handle(PacketHandshake handshake) {
         Preconditions.checkState( thisState == State.HANDSHAKE, "Not expecting HANDSHAKE" );
+        pingVersion = (byte)handshake.getProtocolVersion();
         this.vHost = new InetSocketAddress( handshake.getServerAddress(), handshake.getServerPort() );
         this.ver17handshake = handshake;
     }
@@ -278,10 +279,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         bungee.getPluginManager().callEvent( new PlayerHandshakeEvent( InitialHandler.this, handshake ) );
 
-        if ( handshake.getProtocolVersion() > PacketMapping.supported17End )
+        if ( ver17handshake.getProtocolVersion() > PacketMapping.supported17End )
         {
             disconnect( bungee.getTranslation( "outdated_server" ) );
-        } else if ( handshake.getProtocolVersion() < PacketMapping.supported17End )
+        } else if ( ver17handshake.getProtocolVersion() < PacketMapping.supported17Start )
         {
             disconnect( bungee.getTranslation( "outdated_client" ) );
         }

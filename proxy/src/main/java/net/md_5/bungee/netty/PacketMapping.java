@@ -5,9 +5,6 @@ import net.md_5.bungee.netty.packetrewriter.*;
 import net.md_5.bungee.protocol.packet.DefinedPacket;
 import net.md_5.bungee.protocol.packet.protocolhack.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class PacketMapping {
     /**
      * Client packet mapping - packets from client to server
@@ -33,7 +30,7 @@ public class PacketMapping {
      */
     public static String[] statistics = new String[ 2029 ];
 
-    public static int supported16start = 74;
+    public static int supported16Start = 74;
     public static int supported16End = 80;
 
     public static int supported17Start = 1;
@@ -189,7 +186,7 @@ public class PacketMapping {
         rewriters[ 0x35 ] = new BlockChangeRewriter();
         rewriters[ 0x36 ] = new BlockActionRewriter();
         rewriters[ 0x37 ] = new EntityChangeRewriter();
-        rewriters[ 0x3C ] = new ExplotionRewriter();
+        rewriters[ 0x3C ] = new ExplosionRewriter();
         rewriters[ 0x3E ] = new SoundEffectRewriter();
         rewriters[ 0x3F ] = new ParticleRewriter();
         rewriters[ 0x64 ] = new WindowOpenRewriter();

@@ -2,7 +2,7 @@ package net.md_5.bungee.netty.packetrewriter;
 
 import io.netty.buffer.ByteBuf;
 
-public class ExplotionRewriter extends PacketRewriter {
+public class ExplosionRewriter extends PacketRewriter {
 
     @Override
     public void rewriteClientToServer(ByteBuf in, ByteBuf out) {

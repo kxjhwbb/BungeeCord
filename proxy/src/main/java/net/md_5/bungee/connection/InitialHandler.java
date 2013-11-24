@@ -176,7 +176,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             forced.ping( pingBack );
         } else
         {
-            if ( pingVersion <= PacketMapping.supported16End && pingVersion >= PacketMapping.supported16start ) {
+            if ( pingVersion <= PacketMapping.supported16End && pingVersion >= PacketMapping.supported16Start ) {
                 pingBack.done( new ServerPing( pingVersion, bungee.getGameVersion(), motd, bungee.getOnlineCount(), listener.getMaxPlayers()) , null );
             } else {
                 pingBack.done( new ServerPing( bungee.getProtocolVersion(), bungee.getGameVersion(), motd, bungee.getOnlineCount(), listener.getMaxPlayers() ), null );
@@ -329,7 +329,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         if ( handshake.getProtocolVersion() > PacketMapping.supported16End )
         {
             disconnect( bungee.getTranslation( "outdated_server" ) );
-        } else if ( handshake.getProtocolVersion() < PacketMapping.supported16start )
+        } else if ( handshake.getProtocolVersion() < PacketMapping.supported16Start )
         {
             disconnect( bungee.getTranslation( "outdated_client" ) );
         }

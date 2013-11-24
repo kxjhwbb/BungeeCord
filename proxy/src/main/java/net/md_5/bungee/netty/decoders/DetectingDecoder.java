@@ -25,8 +25,8 @@ public class DetectingDecoder extends ByteToMessageDecoder {
             PacketTranslatorDecoder trDecoder = new PacketTranslatorDecoder( protocol );
             p.addBefore( PipelineUtils.PACKET_ENCODE_HANDLER, PipelineUtils.TRANSLATOR_DECODE_HANDLER, trDecoder );
             p.addBefore( PipelineUtils.TRANSLATOR_DECODE_HANDLER, PipelineUtils.TRANSLATOR_ENCODE_HANDLER, new PacketTranslatorEncoder( trDecoder ) );
-            p.addBefore( PipelineUtils.TRANSLATOR_ENCODE_HANDLER, PipelineUtils.PACKET_DECODE_HANDLER, new VarIntPacketLengthDecoder() );
-            p.addBefore( PipelineUtils.PACKET_DECODE_HANDLER, PipelineUtils.VARINT_ENCODE_HANDLER, new Varint21LengthFieldPrepender() );
+            p.addBefore( PipelineUtils.TRANSLATOR_ENCODE_HANDLER, PipelineUtils.VARINT_ENCODE_HANDLER, new Varint21LengthFieldPrepender() );
+            p.addBefore( PipelineUtils.VARINT_ENCODE_HANDLER, PipelineUtils.PACKET_DECODE_HANDLER, new VarIntPacketLengthDecoder() );
         } else {
             // 1.6.4
             p.addBefore( PipelineUtils.PACKET_ENCODE_HANDLER, PipelineUtils.PACKET_DECODE_HANDLER, new PacketDecoder( protocol ) );

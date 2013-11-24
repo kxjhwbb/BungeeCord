@@ -39,7 +39,7 @@ public class VarIntPacketLengthDecoder extends ByteToMessageDecoder
                     return;
                 }
             }
-            throw new BadPacketException( "length too long" );
         }
+        throw new BadPacketException( "length too long" );
     }
 }

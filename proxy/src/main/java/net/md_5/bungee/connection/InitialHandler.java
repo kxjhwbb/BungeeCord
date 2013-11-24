@@ -96,6 +96,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
     PacketHandshake ver17handshake;
     byte pingVersion = -1;
+    byte clientVersion = -1;
 
     private enum State
     {
@@ -268,6 +269,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     public void handle(PacketHandshake handshake) {
         Preconditions.checkState( thisState == State.HANDSHAKE, "Not expecting HANDSHAKE" );
         pingVersion = (byte)handshake.getProtocolVersion();
+        clientVersion = (byte)handshake.getProtocolVersion();
         this.vHost = new InetSocketAddress( handshake.getServerAddress(), handshake.getServerPort() );
         this.ver17handshake = handshake;
     }
@@ -320,6 +322,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public void handle(Packet2Handshake handshake) throws Exception
     {
+        clientVersion = handshake.getProtocolVersion();
         Preconditions.checkState( thisState == State.HANDSHAKE, "Not expecting HANDSHAKE" );
         this.handshake = handshake;
         this.vHost = new InetSocketAddress( handshake.getHost(), handshake.getPort() );
@@ -545,7 +548,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     {
         Preconditions.checkState( thisState == State.LOGIN, "Not expecting LOGIN" );
 
-        UserConnection userCon = new UserConnection( bungee, ch, getName(), this );
+        UserConnection userCon = new UserConnection( bungee, ch, getName(), this, clientVersion );
         userCon.init();
 
         bungee.getPluginManager().callEvent( new PostLoginEvent( userCon ) );

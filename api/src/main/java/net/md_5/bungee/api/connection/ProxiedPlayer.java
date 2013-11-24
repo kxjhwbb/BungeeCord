@@ -99,4 +99,11 @@ public interface ProxiedPlayer extends Connection, CommandSender
      * @param server the server to set
      */
     void setReconnectServer(ServerInfo server);
+
+    /**
+     * Get the protocol version of the client connecting.
+     *
+     * @return protocol version of the client
+     */
+    public byte getProtocolVersion();
 }

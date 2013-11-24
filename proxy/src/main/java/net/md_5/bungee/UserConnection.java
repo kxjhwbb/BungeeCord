@@ -91,6 +91,8 @@ public final class UserConnection implements ProxiedPlayer
     private PacketCCSettings settings;
     @Getter
     private final Scoreboard serverSentScoreboard = new Scoreboard();
+    @Getter
+    private final byte protocolVersion;
     /*========================================================================*/
     @Getter
     private String displayName;

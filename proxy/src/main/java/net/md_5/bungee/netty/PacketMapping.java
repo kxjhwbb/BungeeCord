@@ -33,8 +33,11 @@ public class PacketMapping {
      */
     public static String[] statistics = new String[ 2029 ];
 
-    public static int supportedStart = 1;
-    public static int supportedEnd = 4;
+    public static int supported16start = 74;
+    public static int supported16End = 80;
+
+    public static int supported17Start = 1;
+    public static int supported17End = 4;
 
     static {
         // Client mappings

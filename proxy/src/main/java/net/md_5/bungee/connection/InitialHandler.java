@@ -35,10 +35,7 @@ import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.http.HttpClient;
-import net.md_5.bungee.netty.ChannelWrapper;
-import net.md_5.bungee.netty.HandlerBoss;
-import net.md_5.bungee.netty.PacketHandler;
-import net.md_5.bungee.netty.PipelineUtils;
+import net.md_5.bungee.netty.*;
 import net.md_5.bungee.netty.decoders.CipherDecoder;
 import net.md_5.bungee.netty.decoders.PacketDecoder;
 import net.md_5.bungee.netty.encoders.CipherEncoder;
@@ -95,10 +92,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     private boolean onlineMode = BungeeCord.getInstance().config.isOnlineMode();
     private ScheduledFuture<?> pingFuture;
     private InetSocketAddress vHost;
-    private byte version = -1;
     private PacketLoginStart loginstart;
 
     PacketHandshake ver17handshake;
+    byte pingVersion = -1;
 
     private enum State
     {
@@ -126,7 +123,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             if ( pingFuture.cancel( false ) )
             {
                 MinecraftInput in = pluginMessage.getMCStream();
-                version = in.readByte();
+                pingVersion = in.readByte();
                 String connectHost = in.readString();
                 int connectPort = in.readInt();
                 this.vHost = new InetSocketAddress( connectHost, connectPort );
@@ -179,13 +176,18 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             forced.ping( pingBack );
         } else
         {
-            pingBack.done( new ServerPing( bungee.getProtocolVersion(), bungee.getGameVersion(), motd, bungee.getOnlineCount(), listener.getMaxPlayers() ), null );
+            if ( pingVersion <= PacketMapping.supported16End && pingVersion >= PacketMapping.supported16start ) {
+                pingBack.done( new ServerPing( pingVersion, bungee.getGameVersion(), motd, bungee.getOnlineCount(), listener.getMaxPlayers()) , null );
+            } else {
+                pingBack.done( new ServerPing( bungee.getProtocolVersion(), bungee.getGameVersion(), motd, bungee.getOnlineCount(), listener.getMaxPlayers() ), null );
+            }
         }
     }
 
     @Override
-    public void handle(PacketFEPing ping) throws Exception
+    public void handle(final PacketFEPing ping) throws Exception
     {
+        pingVersion = ping.getVersion();
         pingFuture = ch.getHandle().eventLoop().schedule( new Runnable()
         {
             @Override
@@ -276,10 +278,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         bungee.getPluginManager().callEvent( new PlayerHandshakeEvent( InitialHandler.this, handshake ) );
 
-        if ( handshake.getProtocolVersion() > Vanilla.PROTOCOL_VERSION )
+        if ( handshake.getProtocolVersion() > PacketMapping.supported17End )
         {
             disconnect( bungee.getTranslation( "outdated_server" ) );
-        } else if ( handshake.getProtocolVersion() < Vanilla.PROTOCOL_VERSION )
+        } else if ( handshake.getProtocolVersion() < PacketMapping.supported17End )
         {
             disconnect( bungee.getTranslation( "outdated_client" ) );
         }
@@ -306,7 +308,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         if ( this.onlineMode )
         {
-            unsafe().sendPacket( request172 = EncryptionUtil.encryptRequest172( this.onlineMode ) ); // packet mapping should take care of this
+            unsafe().sendPacket(request172 = EncryptionUtil.encryptRequest172(this.onlineMode)); // packet mapping should take care of this
             thisState = State.ENCRYPT;
         } else
         {
@@ -324,10 +326,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         bungee.getPluginManager().callEvent( new PlayerHandshakeEvent( InitialHandler.this, handshake ) );
 
-        if ( handshake.getProtocolVersion() > Vanilla.PROTOCOL_VERSION )
+        if ( handshake.getProtocolVersion() > PacketMapping.supported16End )
         {
             disconnect( bungee.getTranslation( "outdated_server" ) );
-        } else if ( handshake.getProtocolVersion() < Vanilla.PROTOCOL_VERSION )
+        } else if ( handshake.getProtocolVersion() < PacketMapping.supported16start )
         {
             disconnect( bungee.getTranslation( "outdated_client" ) );
         }
@@ -338,6 +340,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             return;
         }
 
+        handshake.setProtocolVersion( (byte)78 );
         int limit = BungeeCord.getInstance().config.getPlayerLimit();
         if ( limit > 0 && bungee.getOnlineCount() > limit )
         {
@@ -581,7 +584,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public byte getVersion()
     {
-        return ( handshake == null ) ? version : handshake.getProtocolVersion();
+        return ( handshake == null ) ? pingVersion : handshake.getProtocolVersion();
     }
 
     @Override

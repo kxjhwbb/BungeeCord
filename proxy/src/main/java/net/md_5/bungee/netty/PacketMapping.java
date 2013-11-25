@@ -36,6 +36,8 @@ public class PacketMapping {
     public static int supported17Start = 1;
     public static int supported17End = 4;
 
+    public static short[] itemIdMapping = new short[ Short.MAX_VALUE ];
+
     static
     {
         // Client mappings
@@ -167,6 +169,33 @@ public class PacketMapping {
         statistics[ 2027 ] = "stat.treasureFished";
         statistics[ 2028 ] = "stat.animalsBred"; // Not on wiki, and no really fitting ids
 
+        itemIdMapping[ 25 ] = 355; // Bed
+        itemIdMapping[ 34 ] = 33; // Piston "arm"
+        itemIdMapping[ 36 ] = 33; // Piston moving
+        itemIdMapping[ 55 ] = 331; // Redstone, maybe?
+        itemIdMapping[ 59 ] = 295; // Crops
+        itemIdMapping[ 63 ] = 323; // Sign
+        itemIdMapping[ 64 ] = 324; // Wooden door
+        itemIdMapping[ 68 ] = 323; // Sign
+        itemIdMapping[ 71 ] = 330; // Iron door
+        itemIdMapping[ 74 ] = 73; // Glowing redstone ore
+        itemIdMapping[ 75 ] = 76; // Redstone torch in off-mode
+        itemIdMapping[ 83 ] = 338; // Sugarcanes
+        itemIdMapping[ 92 ] = 354; // Cake! :D
+        itemIdMapping[ 93 ] = 356; // Repeater
+        itemIdMapping[ 94 ] = 356; // Repeater
+        itemIdMapping[ 104 ] = 361; // Pumpkin seeds
+        itemIdMapping[ 105 ] = 362; // Melon seeds
+        itemIdMapping[ 115 ] = 372; // Nether wart
+        itemIdMapping[ 117 ] = 379; // Brewing stand
+        itemIdMapping[ 118 ] = 379; // Brewing stand
+        itemIdMapping[ 124 ] = 123; // Redstone lamp
+        itemIdMapping[ 132 ] = 126; // Wooden slab
+        itemIdMapping[ 140 ] = 390; // Flower pot
+        itemIdMapping[ 144 ] = 397; // Head
+        itemIdMapping[ 149 ] = 404; // Comparator
+        itemIdMapping[ 150 ] = 404; // Comparator
+
         // Re-writers
         rewriters[ 0x01 ] = new JoinGameRewriter();
         //rewriters[ 0x02 ] = new HandshakeRewriter();
@@ -190,9 +219,11 @@ public class PacketMapping {
         rewriters[ 0x3C ] = new ExplosionRewriter();
         rewriters[ 0x3E ] = new SoundEffectRewriter();
         rewriters[ 0x3F ] = new ParticleRewriter();
-        rewriters[ 0x64 ] = new WindowOpenRewriter();
         rewriters[ 0x46 ] = new ChangeGameStateRewriter();
         rewriters[ 0x47 ] = new EntityChangeRewriter();
+        rewriters[ 0x64 ] = new WindowOpenRewriter();
+        rewriters[ 0x67 ] = new SetSlotRewriter();
+        rewriters[ 0x68 ] = new WindowItemsRewriter();
         rewriters[ 0x82 ] = new UpdateSignRewriter();
         rewriters[ 0x83 ] = new EntityChangeRewriter(); // Not really entity change, but first value is int
         rewriters[ 0x85 ] = new SignEditorRewriter();

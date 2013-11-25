@@ -77,7 +77,9 @@ public class NewServerPing
         {
             for ( String str : players.sample )
             {
-                samplePlayers.add( new JsonPrimitive( str ) );
+                JsonObject user = new JsonObject();
+                user.add( "name", new JsonPrimitive( str ) );
+                samplePlayers.add( user );
             }
         }
         jsonPlayers.add( "sample", samplePlayers );

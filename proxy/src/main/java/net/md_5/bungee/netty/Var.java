@@ -118,16 +118,7 @@ public class Var {
             else if ( type == 3 ) out.writeFloat( in.readFloat() );
             else if ( type == 4 ) Var.writeString( Var.readString( in, false ), out, true );
             else if ( type == 5 ) {
-                short itemType = in.readShort();
-                out.writeShort( itemType );
-                if ( itemType >= 0 ) {
-                    out.writeBytes( in.readBytes( 3 ) );
-                    short bytes = in.readShort();
-                    out.writeShort( bytes );
-                    if ( bytes >= 0 ) {
-                        out.writeBytes( in.readBytes( bytes ) );
-                    }
-                }
+                rewriteItemData( in, out );
             } else if ( type == 6 ) {
                 out.writeInt( in.readInt() );
                 out.writeInt( in.readInt() );
@@ -136,4 +127,27 @@ public class Var {
         }
     }
 
+    public static void rewriteItemData(ByteBuf in, ByteBuf out)
+    {
+        short streamId = in.readShort();
+        short itemType = streamId;
+
+        if ( streamId != -1 && PacketMapping.itemIdMapping[ streamId ] != 0 )
+        {
+            itemType = PacketMapping.itemIdMapping[ streamId ];
+        }
+
+        out.writeShort( itemType );
+        if ( streamId >= 0 )
+        {
+            out.writeBytes( in.readBytes( 3 ) );
+            short bytes = in.readShort();
+            out.writeShort( bytes );
+            if ( bytes >= 0 )
+            {
+                out.writeBytes( in.readBytes( bytes ) );
+            }
+        }
+    }
 }
+

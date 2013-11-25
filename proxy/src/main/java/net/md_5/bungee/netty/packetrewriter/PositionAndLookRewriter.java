@@ -2,9 +2,11 @@ package net.md_5.bungee.netty.packetrewriter;
 
 import io.netty.buffer.ByteBuf;
 
-public class PositionAndLookRewriter extends PacketRewriter {
+public class PositionAndLookRewriter extends PacketRewriter
+{
     @Override
-    public void rewriteClientToServer(ByteBuf in, ByteBuf out) {
+    public void rewriteClientToServer(ByteBuf in, ByteBuf out)
+    {
         double x = in.readDouble();
         double y = in.readDouble();
         double stance = in.readDouble();
@@ -22,7 +24,8 @@ public class PositionAndLookRewriter extends PacketRewriter {
     }
 
     @Override
-    public void rewriteServerToClient(ByteBuf in, ByteBuf out) {
+    public void rewriteServerToClient(ByteBuf in, ByteBuf out)
+    {
         double x = in.readDouble();
         double y = in.readDouble();
         in.readDouble(); // Ignore stance.

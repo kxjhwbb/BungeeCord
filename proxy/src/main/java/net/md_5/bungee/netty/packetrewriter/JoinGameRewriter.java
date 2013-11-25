@@ -3,7 +3,8 @@ package net.md_5.bungee.netty.packetrewriter;
 import io.netty.buffer.ByteBuf;
 import net.md_5.bungee.netty.Var;
 
-public class JoinGameRewriter extends PacketRewriter {
+public class JoinGameRewriter extends PacketRewriter
+{
 
     /*
     Packet ID 	    Field Name      Field Type
@@ -25,12 +26,14 @@ public class JoinGameRewriter extends PacketRewriter {
      */
 
     @Override
-    public void rewriteClientToServer(ByteBuf in, ByteBuf out) {
+    public void rewriteClientToServer(ByteBuf in, ByteBuf out)
+    {
         unsupported( true );
     }
 
     @Override
-    public void rewriteServerToClient(ByteBuf in, ByteBuf out) {
+    public void rewriteServerToClient(ByteBuf in, ByteBuf out)
+    {
         int entityId = in.readInt();
         String levelType = Var.readString( in, false );
         byte gameMode = in.readByte();

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  * BungeeCord 1.7.2; representing the new ping method)
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class NewServerPing
 {
@@ -37,6 +36,7 @@ public class NewServerPing
 
         private int max;
         private int online;
+        private String[] sample;
     }
     private String description;
     private String favicon;
@@ -58,7 +58,7 @@ public class NewServerPing
 
     /**
      * Converts this object to a {@link JsonObject}, as accepted by the
-     * Minecrfat client in the 1.7.2 ping process and as seen in
+     * Minecraft client in the 1.7.2 ping process and as seen in
      * http://wiki.vg/Server_List_Ping#1.7 .
      *
      * @return A {@link JsonObject} containing this object's data.
@@ -72,7 +72,15 @@ public class NewServerPing
         jsonVersion.add( "protocol", new JsonPrimitive( version.getProtocol() ) );
         jsonPlayers.add( "max", new JsonPrimitive( players.getMax() ) );
         jsonPlayers.add( "online", new JsonPrimitive( players.getOnline() ) );
-        jsonPlayers.add( "sample", new JsonArray() ); // empty array
+        JsonArray samplePlayers = new JsonArray();
+        if ( players.sample != null )
+        {
+            for ( String str : players.sample )
+            {
+                samplePlayers.add( new JsonPrimitive( str ) );
+            }
+        }
+        jsonPlayers.add( "sample", samplePlayers );
         json.add( "version", jsonVersion );
         json.add( "players", jsonPlayers );
         json.add( "description", new JsonPrimitive( description.replaceAll( "\\\\n", "\n" ) ) );

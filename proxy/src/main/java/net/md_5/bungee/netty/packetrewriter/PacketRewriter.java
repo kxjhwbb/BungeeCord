@@ -2,7 +2,9 @@ package net.md_5.bungee.netty.packetrewriter;
 
 import io.netty.buffer.ByteBuf;
 
-public abstract class PacketRewriter {
+public abstract class PacketRewriter
+{
+
     public abstract void rewriteClientToServer(ByteBuf in, ByteBuf out);
     public abstract void rewriteServerToClient(ByteBuf in, ByteBuf out);
 
@@ -29,10 +31,13 @@ public abstract class PacketRewriter {
         return new String( chars );
     }
 
-    public void unsupported(boolean clientside) throws UnsupportedOperationException {
-        if ( clientside ) {
+    public void unsupported(boolean clientside) throws UnsupportedOperationException
+    {
+        if ( clientside )
+        {
             throw new UnsupportedOperationException( "This packet is only client to server.");
-        } else {
+        } else
+        {
             throw new UnsupportedOperationException( "This packet is only server to client." );
         }
     }

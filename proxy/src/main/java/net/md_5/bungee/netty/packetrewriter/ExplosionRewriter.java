@@ -2,15 +2,18 @@ package net.md_5.bungee.netty.packetrewriter;
 
 import io.netty.buffer.ByteBuf;
 
-public class ExplosionRewriter extends PacketRewriter {
+public class ExplosionRewriter extends PacketRewriter
+{
 
     @Override
-    public void rewriteClientToServer(ByteBuf in, ByteBuf out) {
+    public void rewriteClientToServer(ByteBuf in, ByteBuf out)
+    {
         unsupported( true );
     }
 
     @Override
-    public void rewriteServerToClient(ByteBuf in, ByteBuf out) {
+    public void rewriteServerToClient(ByteBuf in, ByteBuf out)
+    {
         float x = (float) in.readDouble();
         float y = (float) in.readDouble();
         float z = (float) in.readDouble();

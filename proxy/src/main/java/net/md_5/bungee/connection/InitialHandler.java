@@ -212,7 +212,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 if ( error != null )
                 {
                     result = new NewServerPing( new NewServerPing.Protocol( "-1", -1 ),
-                            new NewServerPing.Players( -1, -1 ),
+                            new NewServerPing.Players( -1, -1, null ),
                             "Error pinging remote server: " + Util.exception( error ),
                             null );
                 }
@@ -237,7 +237,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         {
             pingBack.done( new NewServerPing(
                     new NewServerPing.Protocol( bungee.getGameVersion(), pingVersion ), //TODO: There must be a better solution to this
-                    new NewServerPing.Players( listener.getMaxPlayers(), bungee.getOnlineCount() ), motd, bungee.getFavicon() ), null );
+                    new NewServerPing.Players( listener.getMaxPlayers(), bungee.getOnlineCount(), null ), motd, bungee.getFavicon() ), null );
         }
         BungeeCord.getInstance().getConnectionThrottle().unthrottle( getAddress().getAddress() );
     }
@@ -246,7 +246,8 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     public void handle(PacketPing ping)
     {
         unsafe().sendPacket( ping );
-        if ( !ch.isClosed() ) {
+        if ( !ch.isClosed() )
+        {
             ch.close();
         }
     }
@@ -258,9 +259,11 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         Preconditions.checkState( forgeLogin == null, "Already received FORGE LOGIN" );
         forgeLogin = login;
 
-        if ( ch.getHandle().pipeline().get( PacketDecoder.class ) != null ) {
+        if ( ch.getHandle().pipeline().get( PacketDecoder.class ) != null )
+        {
             ch.getHandle().pipeline().get( PacketDecoder.class ).setProtocol( Forge.getInstance() );
-        } else {
+        } else
+        {
             disconnect( "Forge 1.7.2?!" );
         }
     }
@@ -415,7 +418,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
             HttpClient.get( authURL, ch.getHandle().eventLoop(), handler );
         } else
-         {
+        {
             finish( false );
         }
     }

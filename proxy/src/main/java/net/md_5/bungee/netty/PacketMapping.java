@@ -36,7 +36,8 @@ public class PacketMapping {
     public static int supported17Start = 1;
     public static int supported17End = 4;
 
-    static {
+    static
+    {
         // Client mappings
         cpm[ 0x00 ] = 0x00;
         cpm[ 0x01 ] = 0x03;
@@ -210,27 +211,38 @@ public class PacketMapping {
         rewriters[ 0xFF ] = new DisconnectRewriter();
     }
 
-    public static DefinedPacket readInitialPacket(int packetId, int state, ByteBuf buf) {
+    public static DefinedPacket readInitialPacket(int packetId, int state, ByteBuf buf)
+    {
         DefinedPacket packet;
-        if ( state == 0 ) {
+        if ( state == 0 )
+        {
             packet = new PacketHandshake();
-        } else if ( state == 1 ) {
-            if ( packetId == 0x00 ) {
+        } else if ( state == 1 )
+        {
+            if ( packetId == 0x00 )
+            {
                 packet = new PacketPingRequest();
-            } else if ( packetId == 0x01 ) {
+            } else if ( packetId == 0x01 )
+            {
                 packet = new PacketPing();
-            } else {
+            } else
+            {
                 return null;
             }
-        } else if ( state == 2 ) {
-            if ( packetId == 0x00 ) {
+        } else if ( state == 2 )
+        {
+            if ( packetId == 0x00 )
+            {
                 packet = new PacketLoginStart();
-            } else if ( packetId == 0x01 ) {
+            } else if ( packetId == 0x01 )
+            {
                 packet = new PacketEncryptionResponse();
-            } else {
+            } else
+            {
                 return null;
             }
-        } else {
+        } else
+        {
             return null;
         }
         packet.read( buf );

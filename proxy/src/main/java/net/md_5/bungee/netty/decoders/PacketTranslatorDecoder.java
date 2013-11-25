@@ -19,7 +19,8 @@ import net.md_5.bungee.protocol.packet.protocolhack.PacketHandshake;
 
 import java.util.List;
 
-public class PacketTranslatorDecoder extends ByteToMessageDecoder {
+public class PacketTranslatorDecoder extends ByteToMessageDecoder
+{
 
     @Setter
     @Getter
@@ -30,22 +31,28 @@ public class PacketTranslatorDecoder extends ByteToMessageDecoder {
     public final static int INGAME = 3;
 
     Protocol protocol;
-    public PacketTranslatorDecoder(Protocol protocol) {
+    public PacketTranslatorDecoder(Protocol protocol)
+    {
         this.protocol = protocol;
     }
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception
+    {
         int packetId = Var.readVarInt( in );
-        if ( nextState == INGAME ) {
+        if ( nextState == INGAME )
+        {
             short mappedPacketId = PacketMapping.cpm[ packetId ]; // Convert to 1.6.4 packet id
             PacketRewriter rewriter = PacketMapping.rewriters[ mappedPacketId ];
             ByteBuf content = Unpooled.buffer();
-            try {
+            try
+            {
                 content.writeByte( mappedPacketId );
-                if ( rewriter == null ) {
+                if ( rewriter == null )
+                {
                     content.writeBytes( in.readBytes( in.readableBytes() ) );
-                } else {
+                } else
+                {
                     rewriter.rewriteClientToServer( in, content );
                 }
                 ByteBuf copy = content.copy();
@@ -55,15 +62,19 @@ public class PacketTranslatorDecoder extends ByteToMessageDecoder {
                     throw new BadPacketException( "Did not read all bytes from packet " + packet.getClass() + " " + packetId + " Protocol " + protocol );
                 }
                 out.add( new PacketWrapper( packet, copy ) );
-            } finally {
+            } finally
+            {
                 content.release();
             }
-        } else {
+        } else
+        {
             ByteBuf copy = in.copy();
             DefinedPacket packet = PacketMapping.readInitialPacket( packetId, nextState, in );
-            if ( packet instanceof PacketHandshake ) {
+            if ( packet instanceof PacketHandshake )
+            {
                 int state = ((PacketHandshake) packet).getState();
-                if ( state == STATUS || state == LOGIN ) {
+                if ( state == STATUS || state == LOGIN )
+                {
                     nextState = state;
                 }
             }

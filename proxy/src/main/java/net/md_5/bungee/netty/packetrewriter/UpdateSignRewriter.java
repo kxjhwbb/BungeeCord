@@ -5,6 +5,7 @@ import net.md_5.bungee.netty.Var;
 
 public class UpdateSignRewriter extends PacketRewriter
 {
+
     @Override
     public void rewriteClientToServer(ByteBuf in, ByteBuf out)
     {
@@ -28,4 +29,5 @@ public class UpdateSignRewriter extends PacketRewriter
             Var.writeString( Var.readString( in, false ), out, true );
         }
     }
+
 }

@@ -23,4 +23,5 @@ public class WindowItemsRewriter extends PacketRewriter
             Var.rewriteItemData( in, out );
         }
     }
+
 }

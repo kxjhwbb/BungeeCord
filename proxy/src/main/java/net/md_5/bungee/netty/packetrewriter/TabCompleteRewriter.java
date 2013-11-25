@@ -5,6 +5,7 @@ import net.md_5.bungee.netty.Var;
 
 public class TabCompleteRewriter extends PacketRewriter
 {
+
     @Override
     public void rewriteClientToServer(ByteBuf in, ByteBuf out)
     {
@@ -21,4 +22,5 @@ public class TabCompleteRewriter extends PacketRewriter
             Var.writeString( command, out, true );
         }
     }
+
 }

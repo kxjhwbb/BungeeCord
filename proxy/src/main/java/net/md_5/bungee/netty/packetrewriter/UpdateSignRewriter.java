@@ -9,7 +9,7 @@ public class UpdateSignRewriter extends PacketRewriter
     @Override
     public void rewriteClientToServer(ByteBuf in, ByteBuf out)
     {
-        out.writeBytes( in.readBytes( 66 ) ); // int, short, int
+        out.writeBytes( in.readBytes( 10 ) ); // int, short, int
         for ( int i = 0; i < 4; i ++ )
         {
             Var.writeString( Var.readString( in, true ), out, false );
@@ -19,7 +19,7 @@ public class UpdateSignRewriter extends PacketRewriter
     @Override
     public void rewriteServerToClient(ByteBuf in, ByteBuf out)
     {
-        out.writeBytes( in.readBytes( 66 ) ); // int, short, int
+        out.writeBytes( in.readBytes( 10 ) ); // int, short, int
         for ( int i = 0; i < 4; i ++ )
         {
             Var.writeString( Var.readString( in, false ), out, true );

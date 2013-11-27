@@ -169,7 +169,7 @@ public class PacketMapping {
         statistics[ 2027 ] = "stat.treasureFished";
         statistics[ 2028 ] = "stat.animalsBred"; // Not on wiki, and no really fitting ids
 
-        itemIdMapping[ 25 ] = 355; // Bed
+        itemIdMapping[ 26 ] = 355; // Bed
         itemIdMapping[ 34 ] = 33; // Piston "arm"
         itemIdMapping[ 36 ] = 33; // Piston moving
         itemIdMapping[ 55 ] = 331; // Redstone, maybe?

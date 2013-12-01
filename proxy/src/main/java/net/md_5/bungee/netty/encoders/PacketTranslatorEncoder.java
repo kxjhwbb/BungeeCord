@@ -42,6 +42,9 @@ public class PacketTranslatorEncoder extends MessageToByteEncoder<ByteBuf>
             if ( packetId == 0x02 )
             {
                 trDecoder.setNextState( 3 );
+            } else if ( packetId == 0xFF )
+            {
+                packetId = 0x00;
             }
             Var.writeVarInt( packetId, out );
             out.writeBytes( msg.readBytes( msg.readableBytes() ) );

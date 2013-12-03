@@ -1,9 +1,10 @@
 package net.md_5.bungee.protocol;
 
 import io.netty.buffer.ByteBuf;
-import java.lang.reflect.Constructor;
 import net.md_5.bungee.protocol.packet.DefinedPacket;
 import net.md_5.bungee.protocol.skip.PacketReader;
+
+import java.lang.reflect.Constructor;
 
 public interface Protocol
 {

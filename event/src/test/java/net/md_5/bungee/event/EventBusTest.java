@@ -1,8 +1,9 @@
 package net.md_5.bungee.event;
 
-import java.util.concurrent.CountDownLatch;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.concurrent.CountDownLatch;
 
 public class EventBusTest
 {

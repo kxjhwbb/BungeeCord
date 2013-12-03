@@ -5,15 +5,16 @@ import io.netty.channel.AddressedEnvelope;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
+import lombok.RequiredArgsConstructor;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ListenerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ListenerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 @RequiredArgsConstructor
 public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket>

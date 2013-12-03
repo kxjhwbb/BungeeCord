@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import net.md_5.bungee.protocol.packet.AbstractPacketHandler;
-import net.md_5.bungee.protocol.packet.DefinedPacket;
 
 @Getter
 @ToString

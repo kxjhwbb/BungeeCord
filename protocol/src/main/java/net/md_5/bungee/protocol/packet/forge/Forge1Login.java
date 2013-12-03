@@ -1,9 +1,10 @@
 package net.md_5.bungee.protocol.packet.forge;
 
-import net.md_5.bungee.protocol.packet.*;
 import io.netty.buffer.ByteBuf;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import net.md_5.bungee.protocol.packet.AbstractPacketHandler;
+import net.md_5.bungee.protocol.packet.Packet1Login;
 
 @ToString
 @EqualsAndHashCode(callSuper = false)

@@ -3,13 +3,16 @@ package net.md_5.bungee.netty.decoders;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
-import java.util.List;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.md_5.bungee.netty.PacketWrapper;
 import net.md_5.bungee.protocol.Protocol;
 import net.md_5.bungee.protocol.packet.DefinedPacket;
 import net.md_5.bungee.protocol.skip.PacketReader;
+
+import java.util.List;
 
 /**
  * This class will attempt to read a packet from {@link PacketReader}, with the

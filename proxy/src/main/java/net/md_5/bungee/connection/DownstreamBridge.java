@@ -2,35 +2,28 @@ package net.md_5.bungee.connection;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import java.io.DataInput;
-import java.util.Objects;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.EntityMap;
 import net.md_5.bungee.ServerConnection;
-import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.UserConnection;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
-import net.md_5.bungee.api.score.Objective;
-import net.md_5.bungee.api.score.Position;
-import net.md_5.bungee.api.score.Score;
-import net.md_5.bungee.api.score.Scoreboard;
-import net.md_5.bungee.api.score.Team;
+import net.md_5.bungee.api.score.*;
 import net.md_5.bungee.netty.ChannelWrapper;
 import net.md_5.bungee.netty.PacketHandler;
+import net.md_5.bungee.netty.PacketMapping;
 import net.md_5.bungee.netty.PacketWrapper;
-import net.md_5.bungee.protocol.packet.Packet0KeepAlive;
-import net.md_5.bungee.protocol.packet.PacketC9PlayerListItem;
-import net.md_5.bungee.protocol.packet.PacketCEScoreboardObjective;
-import net.md_5.bungee.protocol.packet.PacketCFScoreboardScore;
-import net.md_5.bungee.protocol.packet.PacketD0DisplayScoreboard;
-import net.md_5.bungee.protocol.packet.PacketD1Team;
-import net.md_5.bungee.protocol.packet.PacketFAPluginMessage;
-import net.md_5.bungee.protocol.packet.PacketFFKick;
+import net.md_5.bungee.protocol.packet.*;
+import net.md_5.bungee.util.ChatConverter;
+
+import java.io.DataInput;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class DownstreamBridge extends PacketHandler
@@ -39,6 +32,7 @@ public class DownstreamBridge extends PacketHandler
     private final ProxyServer bungee;
     private final UserConnection con;
     private final ServerConnection server;
+    private final JsonParser JSON_PARSER = new JsonParser();
 
     @Override
     public void exception(Throwable t) throws Exception
@@ -72,6 +66,19 @@ public class DownstreamBridge extends PacketHandler
 
         ServerDisconnectEvent serverDisconnectEvent = new ServerDisconnectEvent( con, server.getInfo() );
         bungee.getPluginManager().callEvent( serverDisconnectEvent );
+    }
+
+    @Override
+    public void handle(Packet3Chat chat) throws Exception {
+        if ( con.getProtocolVersion() >= PacketMapping.supported17Start )
+        {
+            for ( Packet3Chat c : ChatConverter.fixJSONChat( JSON_PARSER.parse( chat.getMessage() ).getAsJsonObject() ) )
+            {
+                con.unsafe().sendPacket( c );
+            }
+        }
+
+        throw new CancelSendSignal();
     }
 
     @Override

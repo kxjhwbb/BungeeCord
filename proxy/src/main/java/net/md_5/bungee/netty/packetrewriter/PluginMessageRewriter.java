@@ -3,8 +3,6 @@ package net.md_5.bungee.netty.packetrewriter;
 import io.netty.buffer.ByteBuf;
 import net.md_5.bungee.netty.Var;
 
-import java.nio.charset.Charset;
-
 public class PluginMessageRewriter extends PacketRewriter
 {
 

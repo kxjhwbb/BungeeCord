@@ -1,6 +1,5 @@
 package net.md_5.bungee.connection;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.Callback;

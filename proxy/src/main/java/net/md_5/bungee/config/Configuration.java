@@ -4,6 +4,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.Files;
 import gnu.trove.map.TMap;
+import lombok.Getter;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ConfigurationAdapter;
+import net.md_5.bungee.api.config.ListenerInfo;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.util.CaseInsensitiveMap;
+import net.md_5.bungee.util.CaseInsensitiveSet;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +19,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
-
-import lombok.Getter;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ConfigurationAdapter;
-import net.md_5.bungee.api.config.ListenerInfo;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.util.CaseInsensitiveMap;
-import net.md_5.bungee.util.CaseInsensitiveSet;
 
 /**
  * Core configuration for the proxy.

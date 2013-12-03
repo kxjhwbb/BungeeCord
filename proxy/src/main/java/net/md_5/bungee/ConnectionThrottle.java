@@ -1,9 +1,10 @@
 package net.md_5.bungee;
 
+import lombok.RequiredArgsConstructor;
+
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ConnectionThrottle

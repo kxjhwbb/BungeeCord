@@ -5,8 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import net.md_5.bungee.netty.CipherBase;
 
-import java.util.List;
 import javax.crypto.Cipher;
+import java.util.List;
 
 public class CipherDecoder extends MessageToMessageDecoder<ByteBuf>
 {

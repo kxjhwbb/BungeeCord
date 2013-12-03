@@ -2,7 +2,6 @@ package net.md_5.bungee.protocol.packet.protocolhack;
 
 import io.netty.buffer.ByteBuf;
 import net.md_5.bungee.protocol.packet.AbstractPacketHandler;
-import net.md_5.bungee.protocol.packet.DefinedPacket;
 
 import java.util.UUID;
 

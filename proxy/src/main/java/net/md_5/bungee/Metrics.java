@@ -1,15 +1,12 @@
 package net.md_5.bungee;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import net.md_5.bungee.api.ProxyServer;
+
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.TimerTask;
-import net.md_5.bungee.api.ProxyServer;
 
 public class Metrics extends TimerTask
 {

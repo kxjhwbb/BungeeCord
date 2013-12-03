@@ -6,18 +6,19 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.AttributeKey;
-import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.BungeeServerInfo;
 import net.md_5.bungee.UserConnection;
-import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ListenerInfo;
+import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.netty.decoders.DetectingDecoder;
 import net.md_5.bungee.netty.decoders.PacketDecoder;
 import net.md_5.bungee.netty.encoders.DefinedPacketEncoder;
 import net.md_5.bungee.protocol.Vanilla;
+
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 public class PipelineUtils
 {

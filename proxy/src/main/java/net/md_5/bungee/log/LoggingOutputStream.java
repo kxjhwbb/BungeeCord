@@ -1,10 +1,11 @@
 package net.md_5.bungee.log;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class LoggingOutputStream extends ByteArrayOutputStream

@@ -103,6 +103,7 @@ public enum ChatColor
      * you need to dynamically convert colour codes from your custom format.
      */
     public static final char COLOR_CHAR = '\u00A7';
+    public static final String COLOR_CHAR_STRING = "\u00A7";
     /**
      * Pattern to remove all colour codes.
      */

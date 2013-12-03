@@ -2,11 +2,12 @@ package net.md_5.bungee.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import javax.crypto.Cipher;
-import javax.crypto.ShortBufferException;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import javax.crypto.Cipher;
+import javax.crypto.ShortBufferException;
 
 /**
  * Class to expose an

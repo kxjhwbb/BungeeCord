@@ -1,7 +1,6 @@
 package net.md_5.bungee;
 
 import java.net.InetSocketAddress;
-import java.util.Collection;
 
 /**
  * Series of utility classes to perform various operations.

@@ -1,12 +1,9 @@
 package net.md_5.bungee.config;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import java.util.*;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class Configuration

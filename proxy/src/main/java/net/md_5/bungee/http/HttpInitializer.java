@@ -5,12 +5,13 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
+import net.md_5.bungee.api.Callback;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManager;
-import lombok.RequiredArgsConstructor;
-import net.md_5.bungee.api.Callback;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public class HttpInitializer extends ChannelInitializer<Channel>

@@ -5,11 +5,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.LastHttpContent;
-import java.nio.charset.Charset;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.Callback;
+
+import java.nio.charset.Charset;
 
 @RequiredArgsConstructor
 public class HttpHandler extends SimpleChannelInboundHandler<HttpObject>

@@ -1,10 +1,11 @@
 package net.md_5.bungee.command;
 
-import java.util.Collection;
-import java.util.Collections;
 import lombok.Getter;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Command sender representing the proxy console.

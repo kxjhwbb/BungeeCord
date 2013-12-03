@@ -70,16 +70,15 @@ public class DownstreamBridge extends PacketHandler
 
     @Override
     public void handle(Packet3Chat chat) throws Exception {
-        if ( con.getProtocolVersion() >= PacketMapping.supported17Start &&
-                con.getProtocolVersion() <= PacketMapping.supported17End )
+        if ( con.getProtocolVersion() >= PacketMapping.supported17Start && con.getProtocolVersion() <= PacketMapping.supported17End )
         {
             for ( Packet3Chat c : ChatConverter.fixJSONChat( JSON_PARSER.parse( chat.getMessage() ).getAsJsonObject() ) )
             {
                 con.unsafe().sendPacket( c );
             }
+            throw new CancelSendSignal();
         }
 
-        throw new CancelSendSignal();
     }
 
     @Override

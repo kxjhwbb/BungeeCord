@@ -471,18 +471,16 @@ public class BungeeCord extends ProxyServer
     public void broadcast(String message)
     {
         getConsole().sendMessage( message );
-        // TODO: Here too
-        String encoded = BungeeCord.getInstance().gson.toJson( message );
-        String toSend = "{\"text\":" + encoded + "}";
-        if ( getProtocolVersion() >= PacketMapping.supported17Start && getProtocolVersion() <= PacketMapping.supported17End )
+        connectionLock.readLock().lock();
+        try
         {
-            for ( Packet3Chat c : ChatConverter.fixJSONChat( JSON_PARSER.parse( toSend ).getAsJsonObject() ) )
+            for ( UserConnection con : connections.values() )
             {
-                broadcast(c);
+                con.sendMessage( message );
             }
-        } else
+        } finally
         {
-            broadcast(new Packet3Chat(toSend));
+            connectionLock.readLock().unlock();
         }
     }
 

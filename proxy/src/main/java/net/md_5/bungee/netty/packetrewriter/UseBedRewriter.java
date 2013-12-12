@@ -14,9 +14,8 @@ public class UseBedRewriter extends PacketRewriter
     @Override
     public void rewriteServerToClient(ByteBuf in, ByteBuf out)
     {
-        int entityId = in.readInt();
+        out.writeBytes( in.readBytes( 4 ) );
         in.skipBytes( 1 );
-        out.writeInt( entityId );
         out.writeBytes( in.readBytes( in.readableBytes() ) );
     }
 

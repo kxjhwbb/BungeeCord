@@ -16,6 +16,18 @@ public class SoundEffectRewriter extends PacketRewriter
     public void rewriteServerToClient(ByteBuf in, ByteBuf out)
     {
         String soundname = Var.readString( in, false );
+        if (soundname.equals("damage.hit"))
+        {
+            soundname = "game.neutral.hurt";
+        }
+        else if (soundname.equals("damage.fallbig"))
+        {
+            soundname = "game.neutral.hurt.fall.big";
+        }
+        else if (soundname.equals("damage.fallsmall"))
+        {
+            soundname = "game.neutral.hurt.fall.small";
+        }
         Var.writeString( soundname, out, true );
         out.writeBytes( in.readBytes( in.readableBytes() ) );
     }

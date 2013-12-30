@@ -20,10 +20,13 @@ public class UpdateScoreRewriter extends PacketRewriter {
         byte updateRemove = in.readByte();
         out.writeByte( updateRemove );
 
-        String scoreboardName = Var.readString( in, false );
-        Var.writeString( scoreboardName, out, true );
+        if ( updateRemove != 1 )
+        {
+            String scoreboardName = Var.readString( in, false );
+            Var.writeString( scoreboardName, out, true );
 
-        out.writeBytes(in.readBytes(4)); // int - value
+            out.writeBytes( in.readBytes( 4 ) ); // int - value
+        }
     }
 
 }

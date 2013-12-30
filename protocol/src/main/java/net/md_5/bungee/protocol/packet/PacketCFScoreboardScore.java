@@ -3,7 +3,6 @@ package net.md_5.bungee.protocol.packet;
 import io.netty.buffer.ByteBuf;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -16,7 +15,6 @@ public class PacketCFScoreboardScore extends DefinedPacket
     /**
      * 0 = create / update, 1 = remove.
      */
-    @Setter
     private byte action;
     private String scoreName;
     private int value;

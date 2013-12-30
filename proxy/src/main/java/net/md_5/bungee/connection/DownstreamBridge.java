@@ -131,10 +131,6 @@ public class DownstreamBridge extends PacketHandler
         {
             case 0:
                 Score s = new Score( score.getItemName(), score.getScoreName(), score.getValue() );
-                if ( con.isUsingProtocolHack() && serverScoreboard.hasScore( score.getItemName() ) )
-                {
-                    score.setAction( (byte)2 ); // update instead of creating a new
-                }
                 serverScoreboard.removeScore( score.getItemName() );
                 serverScoreboard.addScore( s );
                 break;

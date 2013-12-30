@@ -90,6 +90,11 @@ public class Scoreboard
         teams.remove( teamName );
     }
 
+    public boolean hasScore(String teamName)
+    {
+        return teams.containsKey( teamName );
+    }
+
     public void clear()
     {
         name = null;

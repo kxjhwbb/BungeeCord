@@ -351,6 +351,12 @@ public final class UserConnection implements ProxiedPlayer
         }
     }
 
+    public boolean isUsingProtocolHack()
+    {
+        return getProtocolVersion() >= PacketMapping.supported17Start
+                && getProtocolVersion() <= PacketMapping.supported17End;
+    }
+
     @Override
     public String toString()
     {

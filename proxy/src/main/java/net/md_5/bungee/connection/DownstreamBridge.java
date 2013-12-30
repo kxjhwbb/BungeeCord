@@ -70,7 +70,7 @@ public class DownstreamBridge extends PacketHandler
 
     @Override
     public void handle(Packet3Chat chat) throws Exception {
-        if ( con.getProtocolVersion() >= PacketMapping.supported17Start && con.getProtocolVersion() <= PacketMapping.supported17End )
+        if ( con.isUsingProtocolHack() )
         {
             for ( Packet3Chat c : ChatConverter.fixJSONChat( JSON_PARSER.parse( chat.getMessage() ).getAsJsonObject() ) )
             {
@@ -131,6 +131,10 @@ public class DownstreamBridge extends PacketHandler
         {
             case 0:
                 Score s = new Score( score.getItemName(), score.getScoreName(), score.getValue() );
+                if ( con.isUsingProtocolHack() && serverScoreboard.hasScore( score.getItemName() ) )
+                {
+                    score.setAction( (byte)2 ); // update instead of creating a new
+                }
                 serverScoreboard.removeScore( score.getItemName() );
                 serverScoreboard.addScore( s );
                 break;

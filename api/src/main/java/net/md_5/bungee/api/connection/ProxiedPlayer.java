@@ -106,4 +106,8 @@ public interface ProxiedPlayer extends Connection, CommandSender
      * @return protocol version of the client
      */
     public byte getProtocolVersion();
+    /**
+     * Check if the player is using a 1.7 based client, if this returns true, its a 1.7 client
+     */
+    public boolean isUsingProtocolHack();
 }

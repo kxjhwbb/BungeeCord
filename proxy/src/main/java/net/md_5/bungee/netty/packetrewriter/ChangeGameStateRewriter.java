@@ -14,6 +14,13 @@ public class ChangeGameStateRewriter extends PacketRewriter
     public void rewriteServerToClient(ByteBuf in, ByteBuf out)
     {
         byte reason = in.readByte();
+        if ( reason == 1 )
+        {
+            reason = 2;
+        } else if ( reason == 2 )
+        {
+            reason = 1;
+        }
         byte gameMode = in.readByte();
         out.writeByte( reason );
         out.writeFloat( gameMode );

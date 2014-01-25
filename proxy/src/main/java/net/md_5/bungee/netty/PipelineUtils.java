@@ -54,6 +54,8 @@ public class PipelineUtils
     public static String TIMEOUT_HANDLER = "timeout";
     public static String PACKET_DECODER = "packet-decoder";
     public static String PACKET_ENCODER = "packet-encoder";
+    public static String REWRITE_ENCODER = "rewrite-encoder";
+    public static String REWRITE_DECODER = "rewrite-decoder";
     public static String BOSS_HANDLER = "inbound-boss";
     public static String ENCRYPT_HANDLER = "encrypt";
     public static String DECRYPT_HANDLER = "decrypt";

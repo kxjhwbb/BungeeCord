@@ -472,6 +472,14 @@ public class BungeeCord extends ProxyServer
         return Protocol.PROTOCOL_VERSION;
     }
 
+
+    @Override
+    public int getMaxProtocolVersion()
+    {
+        return Protocol.PROTOCOL_VERSION_END;
+    }
+
+
     @Override
     public String getGameVersion()
     {

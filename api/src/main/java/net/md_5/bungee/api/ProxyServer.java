@@ -184,6 +184,13 @@ public abstract class ProxyServer
     public abstract int getProtocolVersion();
 
     /**
+     * Get the max Minecraft protocol version supported by this proxy.
+     *
+     * @return the Minecraft protocol version
+     */
+    public abstract int getMaxProtocolVersion();
+
+    /**
      * Factory method to construct an implementation specific server info
      * instance.
      *

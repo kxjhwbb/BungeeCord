@@ -35,6 +35,8 @@ import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.netty.cipher.CipherDecoder;
 import net.md_5.bungee.netty.cipher.CipherEncoder;
 import net.md_5.bungee.protocol.DefinedPacket;
+import net.md_5.bungee.protocol.RewriteDecoder;
+import net.md_5.bungee.protocol.RewriterEncoder;
 import net.md_5.bungee.protocol.packet.Login;
 import net.md_5.bungee.protocol.packet.Handshake;
 import net.md_5.bungee.protocol.packet.PluginMessage;
@@ -233,7 +235,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         Preconditions.checkState( thisState == State.USERNAME, "Not expecting USERNAME" );
         this.loginRequest = loginRequest;
 
-        if ( handshake.getProtocolVersion() > bungee.getProtocolVersion() )
+        if ( handshake.getProtocolVersion() > bungee.getMaxProtocolVersion() )
         {
             disconnect( bungee.getTranslation( "outdated_server" ) );
             return;
@@ -241,6 +243,12 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         {
             disconnect( bungee.getTranslation( "outdated_client" ) );
             return;
+        }
+
+        if ( handshake.getProtocolVersion() > bungee.getProtocolVersion() )
+        {
+            ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_ENCODER, PipelineUtils.REWRITE_DECODER, new RewriteDecoder() );
+            ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_ENCODER, PipelineUtils.REWRITE_ENCODER, new RewriterEncoder() );
         }
 
         if ( getName().length() > 16 )

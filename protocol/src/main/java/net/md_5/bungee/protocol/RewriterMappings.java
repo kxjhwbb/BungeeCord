@@ -1,6 +1,8 @@
 package net.md_5.bungee.protocol;
 
 import net.md_5.bungee.protocol.packet.rewriter.*;
+import net.md_5.bungee.protocol.packet.rewriter.clientside.*;
+import net.md_5.bungee.protocol.packet.rewriter.serverside.*;
 
 public class RewriterMappings {
     public static final PacketRewriter[] serverToClient = new PacketRewriter[ 0xFF ];
@@ -17,7 +19,10 @@ public class RewriterMappings {
         serverToClient[ 0x10 ] = new ServerSpawnPaintingRewriter();
         serverToClient[ 0x12 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x13 ] = new ServerDestroyEntityRewriter();
-        serverToClient[ 0x14 ] = new ServerEntityIdRewriter();
+        serverToClient[ 0x14 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
+        serverToClient[ 0x15 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
+        serverToClient[ 0x16 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
+        serverToClient[ 0x17 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x18 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x19 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x1C ] = new ServerEntityIdRewriter();
@@ -34,5 +39,16 @@ public class RewriterMappings {
         serverToClient[ 0x35 ] = new PositionShortRewriter();
         serverToClient[ 0x36 ] = new PositionIntRewriter();
         serverToClient[ 0x38 ] = new ServerPlayerListItemRewriter();
+        serverToClient[ 0x3C ] = new ServerUpdateScoreRewriter();
+        serverToClient[ 0x3E ] = new ServerTeamRewriter();
+        // TODO: What to do about 0x41 and 0x42?
+        clientToServer[ 0x00 ] = new ClientEntityIdRewriter();
+        clientToServer[ 0x02 ] = new ClientEntityIdRewriter();
+        clientToServer[ 0x07 ] = new ClientDiggingRewriter();
+        clientToServer[ 0x08 ] = new ClientPlayerBlockPlacementRewriter();
+        clientToServer[ 0x0A ] = new ClientAnimationRewriter();
+        clientToServer[ 0x0C ] = new ClientSteerVehicleRewriter();
+        clientToServer[ 0x12 ] = new ClientUpdateSignRewriter();
+        clientToServer[ 0x15 ] = new ClientClientSettingRewriter();
     }
 }

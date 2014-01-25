@@ -35,7 +35,7 @@ import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.netty.cipher.CipherDecoder;
 import net.md_5.bungee.netty.cipher.CipherEncoder;
 import net.md_5.bungee.protocol.DefinedPacket;
-import net.md_5.bungee.protocol.RewriteDecoder;
+import net.md_5.bungee.protocol.RewriterDecoder;
 import net.md_5.bungee.protocol.RewriterEncoder;
 import net.md_5.bungee.protocol.packet.Login;
 import net.md_5.bungee.protocol.packet.Handshake;
@@ -245,12 +245,6 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             return;
         }
 
-        if ( handshake.getProtocolVersion() > bungee.getProtocolVersion() )
-        {
-            ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_ENCODER, PipelineUtils.REWRITE_DECODER, new RewriteDecoder() );
-            ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_ENCODER, PipelineUtils.REWRITE_ENCODER, new RewriterEncoder() );
-        }
-
         if ( getName().length() > 16 )
         {
             disconnect( bungee.getTranslation( "name_too_long" ) );
@@ -389,6 +383,13 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                                 UUID = java.util.UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) ).toString();
                             }
                             unsafe.sendPacket( new LoginSuccess( UUID, getName() ) );
+
+                            if ( handshake.getProtocolVersion() > bungee.getProtocolVersion() )
+                            {
+                                ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_DECODER, PipelineUtils.REWRITE_DECODER, new RewriterDecoder() );
+                                ch.getHandle().pipeline().addBefore( PipelineUtils.PACKET_ENCODER, PipelineUtils.REWRITE_ENCODER, new RewriterEncoder() );
+                                ch.getHandle().flush();
+                            }
                             ch.setProtocol( Protocol.GAME );
 
                             UserConnection userCon = new UserConnection( bungee, ch, getName(), InitialHandler.this );

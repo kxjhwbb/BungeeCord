@@ -17,7 +17,8 @@ public class JenkinsModuleSource implements ModuleSource
         System.out.println( "Attempting to Jenkins download module " + module.getName() + " v" + version.getBuild() );
         try
         {
-            URL website = new URL( "http://ci.md-5.net/job/BungeeCord/" + version.getBuild() + "/artifact/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
+            // Download the right version
+            URL website = new URL( "http://ci.md-5.net/job/BungeeCord/803/artifact/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
             Files.copy( ByteStreams.newInputStreamSupplier( ByteStreams.toByteArray( website.openStream() ) ), module.getFile() );
             System.out.println( "Download complete" );
         } catch ( IOException ex )

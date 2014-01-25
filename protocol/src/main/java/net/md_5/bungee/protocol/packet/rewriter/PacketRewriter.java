@@ -45,4 +45,13 @@ public abstract class PacketRewriter
         out.writeBytes( in.readBytes( size ) );
     }
 
+    public int[] readPosition(ByteBuf in) {
+        int[] result = new int[ 3 ];
+        long position = in.readLong();
+        result[ 0 ] = (int)(position & 0xFFFFFFF000000000L);
+        result[ 1 ] = (int)(position & 0x0000000FF0000000L);
+        result[ 2 ] = (int)(position & 0x000000000FFFFFFFL);
+        return result;
+    }
+
 }

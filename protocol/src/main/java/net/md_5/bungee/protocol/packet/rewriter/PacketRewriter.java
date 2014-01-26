@@ -11,7 +11,7 @@ public abstract class PacketRewriter
     {
         long position =
                 ((long)x & 0x3FFFFFF) << 38
-                | ((long)y & 0xFFF) << 12
+                | ((long)y & 0xFFF) << 26
                 | ((long)z & 0x3FFFFFF);
 
         buf.writeLong( position );

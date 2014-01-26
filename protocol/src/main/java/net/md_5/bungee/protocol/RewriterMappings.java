@@ -12,22 +12,23 @@ public class RewriterMappings {
         serverToClient[ 0x02 ] = new ServerChatRewriter();
         serverToClient[ 0x04 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x05 ] = new ServerSpawnPositionRewriter();
-        serverToClient[ 0x06 ] = new FixedVarintRewriter( 2 ); // float, 2 bits
+        serverToClient[ 0x06 ] = new ServerUpdateFoodRewriter();
+        serverToClient[ 0x08 ] = new ServerPositionRewriter();
         serverToClient[ 0x0A ] = new ServerUseBedRewriter();
         serverToClient[ 0x0C ] = new ServerSpawnPlayerRewriter();
         serverToClient[ 0x0D ] = new ServerCollectItemRewriter();
         serverToClient[ 0x10 ] = new ServerSpawnPaintingRewriter();
         serverToClient[ 0x12 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x13 ] = new ServerDestroyEntityRewriter();
-        serverToClient[ 0x14 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
+        serverToClient[ 0x14 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x15 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
         serverToClient[ 0x16 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
-        serverToClient[ 0x17 ] = new ServerEntityIdRewriter();
+        serverToClient[ 0x17 ] = new ServerEntityIdRewriter(); // Not on wiki.vg
         serverToClient[ 0x18 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x19 ] = new ServerEntityIdRewriter();
         // TEST
-        //serverToClient[ 0x1A ] = new ServerEntityIdRewriter();
-        //serverToClient[ 0x1B ] = new ServerEntityIdRewriter();
+        serverToClient[ 0x1A ] = new ServerEntityIdRewriter();
+        serverToClient[ 0x1B ] = new ServerEntityIdRewriter();
         // - Test
         serverToClient[ 0x1C ] = new ServerEntityIdRewriter();
         serverToClient[ 0x1D ] = new ServerEntityEffectRewriter();

@@ -16,6 +16,7 @@ public class RewriterEncoder extends MessageToByteEncoder<ByteBuf>
         if ( rewriter == null ) {
             out.writeBytes( in.readBytes( in.readableBytes() ) );
         } else {
+            System.out.println( Integer.toHexString( packetId ) );
             rewriter.rewrite( in, out );
         }
     }

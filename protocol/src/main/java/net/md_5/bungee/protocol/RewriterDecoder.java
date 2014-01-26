@@ -18,8 +18,12 @@ public class RewriterDecoder extends ByteToMessageDecoder
         ByteBuf packet = Unpooled.buffer();
         if ( rewriter == null )
         {
+            if ( packetId != 0x7F )
+            {
             DefinedPacket.writeVarInt( packetId, packet );
             packet.writeBytes( in.readBytes( in.readableBytes() ) );
+            out.add( packet );
+            }
         }
         else {
             DefinedPacket.writeVarInt( packetId, packet );

@@ -3,8 +3,6 @@ package net.md_5.bungee.protocol.packet.rewriter;
 import io.netty.buffer.ByteBuf;
 import net.md_5.bungee.protocol.DefinedPacket;
 
-import java.util.Arrays;
-
 public abstract class PacketRewriter
 {
     public abstract void rewrite(ByteBuf in, ByteBuf out);

@@ -25,6 +25,10 @@ public class RewriterMappings {
         serverToClient[ 0x17 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x18 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x19 ] = new ServerEntityIdRewriter();
+        // TEST
+        //serverToClient[ 0x1A ] = new ServerEntityIdRewriter();
+        //serverToClient[ 0x1B ] = new ServerEntityIdRewriter();
+        // - Test
         serverToClient[ 0x1C ] = new ServerEntityIdRewriter();
         serverToClient[ 0x1D ] = new ServerEntityEffectRewriter();
         serverToClient[ 0x1E ] = new ServerEntityIdRewriter();
@@ -41,12 +45,15 @@ public class RewriterMappings {
         serverToClient[ 0x38 ] = new ServerPlayerListItemRewriter();
         serverToClient[ 0x3C ] = new ServerUpdateScoreRewriter();
         serverToClient[ 0x3E ] = new ServerTeamRewriter();
+
+
         // TODO: What to do about 0x41 and 0x42?
         clientToServer[ 0x00 ] = new ClientEntityIdRewriter();
         clientToServer[ 0x02 ] = new ClientEntityIdRewriter();
         clientToServer[ 0x07 ] = new ClientDiggingRewriter();
         clientToServer[ 0x08 ] = new ClientPlayerBlockPlacementRewriter();
         clientToServer[ 0x0A ] = new ClientAnimationRewriter();
+        clientToServer[ 0x0B ] = new ClientEntityActionRewriter();
         clientToServer[ 0x0C ] = new ClientSteerVehicleRewriter();
         clientToServer[ 0x12 ] = new ClientUpdateSignRewriter();
         clientToServer[ 0x15 ] = new ClientClientSettingRewriter();

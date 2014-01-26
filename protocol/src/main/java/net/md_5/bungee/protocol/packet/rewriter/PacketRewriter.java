@@ -3,18 +3,31 @@ package net.md_5.bungee.protocol.packet.rewriter;
 import io.netty.buffer.ByteBuf;
 import net.md_5.bungee.protocol.DefinedPacket;
 
+import java.util.Arrays;
+
 public abstract class PacketRewriter
 {
     public abstract void rewrite(ByteBuf in, ByteBuf out);
 
-    // Disclaimer - I have no idea what I'm doing here.
     public void writePosition(int x, int y, int z, ByteBuf buf)
     {
-        long position = 0;
-        position |= x & 0xFFFFFFF000000000L;
-        position |= y & 0x0000000FF0000000L;
-        position |= z & 0x000000000FFFFFFFL;
+        long position =
+                ((long)x & 0x3FFFFFF) << 38
+                | ((long)y & 0xFFF) << 12
+                | ((long)z & 0x3FFFFFF);
+
         buf.writeLong( position );
+    }
+
+    public int[] readPosition(ByteBuf in) {
+        int[] result = new int[ 3 ];
+        long position = in.readLong();
+
+        result[ 0 ] = (int)(position >> 38);
+        result[ 1 ] = (int)(position << 26 >> 52);
+        result[ 2 ] = (int)(position << 38 >> 38);
+
+        return result;
     }
 
     public void rewritePosition(ByteBuf in, ByteBuf out)
@@ -43,15 +56,6 @@ public abstract class PacketRewriter
         int size = DefinedPacket.readVarInt( in );
         DefinedPacket.writeVarInt( size, out );
         out.writeBytes( in.readBytes( size ) );
-    }
-
-    public int[] readPosition(ByteBuf in) {
-        int[] result = new int[ 3 ];
-        long position = in.readLong();
-        result[ 0 ] = (int)(position & 0xFFFFFFF000000000L);
-        result[ 1 ] = (int)(position & 0x0000000FF0000000L);
-        result[ 2 ] = (int)(position & 0x000000000FFFFFFFL);
-        return result;
     }
 
 }

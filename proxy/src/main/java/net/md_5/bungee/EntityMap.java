@@ -115,6 +115,7 @@ public class EntityMap
 
         if ( ints[packetId] )
         {
+            try {
             int readId = packet.getInt( packetIdLength );
             if ( readId == serverEntityId )
             {
@@ -122,6 +123,10 @@ public class EntityMap
             } else if ( readId == clientEntityId )
             {
                 packet.setInt( packetIdLength, serverEntityId );
+            }
+            } catch ( Exception e ) {
+                System.out.println( packetId );
+                throw e;
             }
         } else if ( varints[packetId] )
         {

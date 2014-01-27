@@ -27,8 +27,8 @@ public class RewriterMappings {
         serverToClient[ 0x18 ] = new ServerEntityIdRewriter();
         serverToClient[ 0x19 ] = new ServerEntityIdRewriter();
         // TEST
-        serverToClient[ 0x1A ] = new ServerEntityIdRewriter();
-        serverToClient[ 0x1B ] = new ServerEntityIdRewriter();
+        //serverToClient[ 0x1A ] = new ServerEntityIdRewriter();
+        //serverToClient[ 0x1B ] = new ServerEntityIdRewriter();
         // - Test
         serverToClient[ 0x1C ] = new ServerEntityIdRewriter();
         serverToClient[ 0x1D ] = new ServerEntityEffectRewriter();

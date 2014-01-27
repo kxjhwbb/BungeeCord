@@ -11,7 +11,7 @@ public class ServerUpdateFoodRewriter extends PacketRewriter
     public void rewrite(ByteBuf in, ByteBuf out)
     {
         out.writeBytes( in.readBytes( 4 ) );
-        DefinedPacket.writeVarInt( in.readInt(), out );
+        DefinedPacket.writeVarInt( in.readShort(), out );
         out.writeBytes( in.readBytes( in.readableBytes() ) );
     }
 }

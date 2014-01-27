@@ -11,9 +11,13 @@ public class ServerUpdateScoreRewriter extends PacketRewriter
     public void rewrite(ByteBuf in, ByteBuf out)
     {
         writeString( in, out );
-        out.writeByte( in.readByte() );
+        int updateRemove = in.readByte();
+        out.writeByte( updateRemove );
         writeString( in, out );
-        DefinedPacket.writeVarInt( in.readInt(), out );
-        out.writeBytes( in.readBytes( in.readableBytes() ) );
+        if ( updateRemove != 1 )
+        {
+            DefinedPacket.writeVarInt( in.readInt(), out );
+            out.writeBytes( in.readBytes( in.readableBytes() ) );
+        }
     }
 }

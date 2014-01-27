@@ -10,7 +10,7 @@ public class ServerBlockBreakAnimationRewriter extends PacketRewriter
     public void rewrite(ByteBuf in, ByteBuf out)
     {
         writeVarInt( in, out );
-        rewritePosition( in, out );
+        writePosition( in.readInt(), in.readInt(), in.readInt(), out );
         out.writeByte( in.readByte() );
     }
 }

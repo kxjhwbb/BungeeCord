@@ -13,10 +13,10 @@ public class RewriterEncoder extends MessageToByteEncoder<ByteBuf>
         int packetId = DefinedPacket.readVarInt( in );
         DefinedPacket.writeVarInt( packetId, out );
         PacketRewriter rewriter = RewriterMappings.serverToClient[ packetId ];
+        System.out.println( Integer.toHexString( packetId ) );
         if ( rewriter == null ) {
             out.writeBytes( in.readBytes( in.readableBytes() ) );
         } else {
-            System.out.println( Integer.toHexString( packetId ) );
             rewriter.rewrite( in, out );
         }
     }

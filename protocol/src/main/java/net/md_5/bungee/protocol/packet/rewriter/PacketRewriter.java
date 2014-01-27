@@ -28,11 +28,6 @@ public abstract class PacketRewriter
         return result;
     }
 
-    public void rewritePosition(ByteBuf in, ByteBuf out)
-    {
-        writePosition( in.readInt(), in.readInt(), in.readInt(), out );
-    }
-
     public int writeVarInt(ByteBuf in, ByteBuf out)
     {
         int varintsize = 0;

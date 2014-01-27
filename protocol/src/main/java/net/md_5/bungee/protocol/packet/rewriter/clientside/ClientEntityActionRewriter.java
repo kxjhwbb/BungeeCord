@@ -11,7 +11,8 @@ public class ClientEntityActionRewriter extends PacketRewriter
     public void rewrite(ByteBuf in, ByteBuf out)
     {
         out.writeInt( DefinedPacket.readVarInt( in ) );
-        out.writeByte( in.readByte() );
+        byte actionId = (byte)(in.readByte() + 1);
+        out.writeByte( actionId );
         out.writeInt( DefinedPacket.readVarInt( in ) );
     }
 }

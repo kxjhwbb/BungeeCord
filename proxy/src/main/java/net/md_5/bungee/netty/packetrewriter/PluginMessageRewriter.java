@@ -1,6 +1,7 @@
 package net.md_5.bungee.netty.packetrewriter;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.md_5.bungee.netty.Var;
 
 public class PluginMessageRewriter extends PacketRewriter
@@ -11,11 +12,28 @@ public class PluginMessageRewriter extends PacketRewriter
     {
         String channel = Var.readString(in, true);
         Var.writeString( channel, out, false );
-
         short length = in.readShort();
-        out.writeShort(length);
 
-        out.writeBytes( in.readBytes( length ) );
+        if ( "MC|AdvCmd".equals( channel ) ) {
+            ByteBuf buf = Unpooled.buffer();
+            byte mode = in.readByte();
+            buf.writeByte( mode );
+            if ( mode == 0x0 )
+            {
+                buf.writeBytes( in.readBytes( 4 ) );
+            } else if ( mode == 0x1 )
+            {
+                buf.writeBytes( in.readBytes( 12 ) );
+            } else
+            {
+                buf.writeBytes( in.readBytes( length - 1 ) );
+            }
+            out.writeShort( buf.readableBytes() );
+            out.writeBytes( in.readBytes( in.readableBytes() ) );
+        } else {
+            out.writeShort(length);
+            out.writeBytes( in.readBytes( length ) );
+        }
     }
 
     @Override

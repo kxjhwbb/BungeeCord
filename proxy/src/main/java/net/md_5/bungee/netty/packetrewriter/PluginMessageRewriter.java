@@ -21,11 +21,11 @@ public class PluginMessageRewriter extends PacketRewriter
             if ( mode == 0x0 )
             {
                 buf.writeBytes( in.readBytes( 12 ) );
-                Var.writeString( Var.readString( in, true ), buf, true );
+                Var.writeString( Var.readString( in, true ), buf, false );
             } else if ( mode == 0x1 )
             {
                 buf.writeBytes( in.readBytes( 4 ) );
-                Var.writeString( Var.readString( in, true ), buf, true );
+                Var.writeString( Var.readString( in, true ), buf, false );
             } else
             {
                 buf.writeBytes( in.readBytes( length - 1 ) );

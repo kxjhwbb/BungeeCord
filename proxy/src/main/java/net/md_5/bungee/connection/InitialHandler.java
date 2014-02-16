@@ -73,6 +73,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     PacketHandshake ver17handshake;
     byte pingVersion = -1;
     byte clientVersion = -1;
+    String UUID;
 
     private enum State
     {
@@ -369,7 +370,8 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             }
 
             String encodedHash = URLEncoder.encode( new BigInteger( sha.digest() ).toString( 16 ), "UTF-8" );
-            String authURL = "http://session.minecraft.net/game/checkserver.jsp?user=" + encName + "&serverId=" + encodedHash;
+
+            String authURL = "https://sessionserver.mojang.com/session/minecraft/hasJoined?username=" + encName + "&serverId=" + encodedHash;
 
             Callback<String> handler = new Callback<String>()
             {
@@ -378,8 +380,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 {
                     if ( error == null )
                     {
-                        if ( "YES".equals( result ) )
+                        AuthResult authResult = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
+                        if ( authResult != null )
                         {
+                            UUID = authResult.getId();
                             finish( false );
                         } else
                         {
@@ -422,7 +426,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             }
 
             String encodedHash = URLEncoder.encode( new BigInteger( sha.digest() ).toString( 16 ), "UTF-8" );
-            String authURL = "http://session.minecraft.net/game/checkserver.jsp?user=" + encName + "&serverId=" + encodedHash;
+            String authURL = "https://sessionserver.mojang.com/session/minecraft/hasJoined?username=" + encName + "&serverId=" + encodedHash;
 
             Callback<String> handler = new Callback<String>()
             {
@@ -431,8 +435,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 {
                     if ( error == null )
                     {
-                        if ( "YES".equals( result ) )
+                        AuthResult authResult = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
+                        if ( authResult != null )
                         {
+                            UUID = authResult.getId();
                             finish( true );
                         } else
                         {

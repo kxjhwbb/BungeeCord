@@ -21,7 +21,8 @@ public class PacketFEPing extends DefinedPacket
     @Override
     public void read(ByteBuf buf)
     {
-        version = buf.readByte();
+        version = buf.getByte(29);
+        buf.readByte();
     }
 
     @Override
